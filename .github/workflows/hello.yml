@@ -1,0 +1,29 @@
+name: hello
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: yacaovsnc/sample-action@master
+    - name: "upload artifact v2"
+      uses: actions/upload-artifact@v2-preview
+      with:
+        name: artifacts_v2
+        path: .github
+    - run: |
+        df -H
+        mount
+        echo TOKEN: ${CONTEXT_TOKEN}
+        # echo -n "TOKEN: ${CONTEXT_TOKEN}" | xxd 
+        echo SECRET TOKEN: ${SECRET_TOKEN}
+        # echo -n "SECRET TOKEN: ${SECRET_TOKEN}" | xxd
+        if [ "${CONTEXT_TOKEN}" == "${SECRET_TOKEN}" ]; then
+          echo "tokens are same"
+        fi
+      env:
+        CONTEXT_TOKEN: ${{ github.token }}
+        SECRET_TOKEN: ${{ secrets.github_token }}
