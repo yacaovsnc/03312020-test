@@ -4,6 +4,8 @@ on: [push]
 
 jobs:
   build:
+    environment:
+      name: prod
     runs-on: ubuntu-latest
     # runs-on: ubuntu-latest
     steps:
